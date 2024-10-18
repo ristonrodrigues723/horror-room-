@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Central Wall with Spider Web, Trapeziums, and Vintage Frame</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fruktur&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* Deep Black for background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            overflow: hidden; /* Prevent scrollbars from appearing */
+        }
+
+        #central-wall {
+            width: 575px;
+            height: 400px;
+            background-color: #1C1C1C; /* Charcoal Gray for the wall */
+            position: relative;
+            left: -100px;
+            z-index: 1;
+        }
+
+        .spiderWeb {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7; /* Semi-transparent to blend with the wall */
+            z-index: 2; /* Ensure the web is in front of the wall but behind the trapeziums */
+        }
+
+        canvas {
+            position: absolute;
+            top: -49%;
+            height: 790px;
+        }
+
+        #leftTrapezium {
+            left: -280px;
+            width: 373px;
+            z-index: 3; /* Ensure trapeziums are in front of the web */
+        }
+
+        #rightTrapezium {
+            right: -650px;
+            width: 700px;
+            z-index: 3;
+        }
+
+        #ceiling {
+            width: 100%;
+            height: 300px; 
+            background-color: #3C1E67; /* Creepy Purple for ceiling */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        #floor {
+            width: 100%;
+            height: 250px; 
+            background-color: #8A0303; /* Blood Red for floor */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Spider Animation */
+        .spider {
+            position: absolute;
+            top: 0;
+            z-index: 4; /* Spider is on top of everything */
+            animation: animateSpider 15s ease-in-out infinite;
+        }
+
+        @keyframes animateSpider {
+            0%,100% {
+                transform: translateY(-500px);
+            }
+            50% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Vintage Photo Frame Styling */
+        .photo-frame {
+            width: 50px;
+            height: 80px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            border: 5px solid  #200f04;; /* Vintage brown for the frame */
+            padding: 5px;
+            background-color: #080500; /* A parchment-like color inside the frame */
+            box-shadow: 0 0 10px rgba(56, 56, 56, 0.7); /* Vintage shadow effect */
+            z-index: 4;
+            overflow: hidden;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: opacity 1s ease-in-out; /* Smooth fade transition */
+        }
+    </style>
+</head>
+<body>
+    <div id="ceiling"></div>
+    <div id="central-wall">
+        <img src="images/web.png" class="spiderWeb">
+        <canvas id="leftTrapezium" width="373" height="790"></canvas>
+        <canvas id="rightTrapezium" width="500" height="790"></canvas>
+
+        <!-- Vintage Photo Frame -->
+        <div class="photo-frame">
+            <img id="frame-photo" src="images/photo1.jpg" alt="Vintage Photo">
+        </div>
+    </div>
+    <div id="floor"></div>
+
+    <section class="banner">
+        <img src="images/undefined - Imgur.png" class="spider">
+    </section>
+
+    <script>
+        // Array of image paths
+        const photos = [
+            'images/f1.png',
+            'images/ur2zo892.png',
+            'images/f3.png'
+        ];
+
+        let currentIndex = 0;
+        const framePhoto = document.getElementById('frame-photo');
+
+        // Function to change photos every 5 seconds
+        function changePhoto() {
+            currentIndex = (currentIndex + 1) % photos.length;
+            framePhoto.style.opacity = 0; // Fade out
+
+            setTimeout(() => {
+                framePhoto.src = photos[currentIndex]; // Change the image
+                framePhoto.style.opacity = 1; // Fade in
+            }, 1000); // Wait for 1s to change image
+        }
+
+        setInterval(changePhoto, 5000); // Change every 5 seconds
+
+        function drawTrapezium(canvasId, isLeft) {
+            var canvas = document.getElementById(canvasId);
+            var ctx = canvas.getContext("2d");
+
+            var canvasHeight = canvas.height;
+            var canvasWidth = canvas.width;
+
+            ctx.beginPath();
+            if (isLeft) {
+                ctx.moveTo(canvasWidth * 0.75, canvasHeight * 0.25);  // Top right
+                ctx.lineTo(canvasWidth * 0.75, canvasHeight * 0.75);  // Bottom right
+                ctx.lineTo(0, canvasHeight * 0.9);                      // Bottom left
+                ctx.lineTo(0, canvasHeight * 0.1);                      // Top left
+            } else {
+                ctx.moveTo(0, canvasHeight * 0.25);                    // Top left
+                ctx.lineTo(0, canvasHeight * 0.75);                    // Bottom left
+                ctx.lineTo(canvasWidth * 0.75, canvasHeight * 0.9);   // Bottom right
+                ctx.lineTo(canvasWidth * 0.75, canvasHeight * 0.1);   // Top right
+            }
+            ctx.closePath();
+
+            ctx.fillStyle = "black";
+            ctx.fill();
+        }
+
+        // Draw left trapezium
+        drawTrapezium("leftTrapezium", true);
+
+        // Draw right trapezium
+        drawTrapezium("rightTrapezium", false);
+    </script>
+</body>
+</html>

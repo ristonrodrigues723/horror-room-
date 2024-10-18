@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Door Opens Jumpscare</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #10151B;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .backDoor {
+            top: 100px;
+            left: 1000px;
+            background-color: #333;
+            position: relative;
+            width: 200px;
+            height: 300px;
+            margin: 0 auto;
+            margin-top: 50px;
+            border: 5px solid #666;
+        }
+
+        .door {
+            background-color: #200f04;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 300px;
+            transform-origin: left;
+            transition: all 0.5s ease-in-out;
+            z-index: 8;
+            border: 3px solid #444;
+        }
+
+        .doorOpen {
+            transform: perspective(1200px) translateZ(0) translateX(0) translateY(0) rotateY(-105deg);
+        }
+
+        .doorClosed {
+            transform: none;
+        }
+
+        .skull {
+            background: url(https://s-media-cache-ak0.pinimg.com/236x/b1/8a/30/b18a30fff5579066ad989bed52fdd51a.jpg) center no-repeat;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-size: contain;
+            width: 750px;
+            height: 750px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: none;
+        }
+
+        .skull.show {
+            opacity: 1;
+            display: block;
+        }
+
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            opacity: 0.1;
+            background-size: cover;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            display: none;
+        }
+
+        .black-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 2;
+            pointer-events: none;
+            display: none;
+        }
+
+        .black-screen.show {
+            opacity: 1;
+            display: block;
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-50%, -50%, 0) translate3d(-12px, 0, 0); }
+            20%, 80% { transform: translate3d(-50%, -50%, 0) translate3d(13px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-50%, -50%, 0) translate3d(-20px, 0, 0); }
+            40%, 60% { transform: translate3d(-50%, -50%, 0) translate3d(20px, 0, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="backDoor">
+        <div class="door doorClosed"></div>
+    </div>
+    <div class="skull"></div>
+    <div class="overlay"></div>
+    <div class="black-screen"></div>
+
+    <script>
+        // Preload assets
+        var audio = new Audio('http://soundbible.com/mp3/Female_Scream_Horror-NeoPhyTe-138499973.mp3');
+        var skullImage = new Image();
+        skullImage.src = 'https://s-media-cache-ak0.pinimg.com/236x/b1/8a/30/b18a30fff5579066ad989bed52fdd51a.jpg';
+
+        function onDoorClick() {
+            this.classList.remove('doorClosed');
+            this.classList.add('doorOpen');
+            
+            setTimeout(function() {
+                document.querySelector('.black-screen').style.display = 'block';
+                document.querySelector('.black-screen').classList.add('show');
+                
+                setTimeout(function() {
+                    document.querySelector('.skull').classList.add('show', 'shake');
+                    document.querySelector('.overlay').style.display = 'block';
+                    audio.play();
+                    
+                    setTimeout(resetAnimation, 2000); // Reset after 2 seconds
+                }, 1000);
+            }, 500); // Delay to allow door opening animation
+        }
+
+        function resetAnimation() {
+            document.querySelector('.black-screen').classList.remove('show');
+            document.querySelector('.skull').classList.remove('show', 'shake');
+            document.querySelector('.overlay').style.display = 'none';
+            document.querySelector('.door').classList.remove('doorOpen');
+            document.querySelector('.door').classList.add('doorClosed');
+            
+            setTimeout(function() {
+                document.querySelector('.black-screen').style.display = 'none';
+                document.querySelector('.skull').style.display = 'none';
+            }, 500); // Delay to allow fade-out
+        }
+
+        document.querySelector('.door').addEventListener('click', onDoorClick);
+    </script>
+</body>
+</html>
