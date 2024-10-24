@@ -1,4 +1,53 @@
 
+
+let redirectTimeout;
+
+        function textChange() {
+            const text1 = document.getElementById('halloween-text1');
+            const text2 = document.getElementById('halloween-text2');
+            const text3 = document.getElementById('halloween-text3');
+            
+            if(text1) {
+                text1.innerHTML = "YOU";
+                text1.classList.add('changed');
+            }
+            if(text2) {
+                text2.innerHTML = "ARE GONNA";
+                text2.classList.add('changed');
+            }
+            if(text3) {
+                text3.innerHTML = "DIE!!";
+                text3.classList.add('changed');
+            }
+
+            clearTimeout(redirectTimeout);
+            redirectTimeout = setTimeout(() => {
+                window.location.href = 'https://manor.hackclub.com/';
+            }, 30000);
+        }
+
+        function boo() {
+            const text1 = document.getElementById('halloween-text1');
+            const text2 = document.getElementById('halloween-text2');
+            const text3 = document.getElementById('halloween-text3');
+            
+            if(text1) {
+                text1.innerHTML = 'DEAD';
+                text1.classList.remove('changed');
+            }
+            if(text2) {
+                text2.innerHTML = 'I SEE';
+                text2.classList.remove('changed');
+            }
+            if(text3) {
+                text3.innerHTML = 'PEOPLE';
+                text3.classList.remove('changed');
+            }
+
+            clearTimeout(redirectTimeout);
+        }
+
+
         // Array of image paths
         const photos = [
           'images/f1.png',
@@ -184,10 +233,10 @@ door.addEventListener('click', onDoorClick);
 
 
 const backgroundMusic = new Audio('audio/horror-background-atmosphere-11-240870.mp3');
-const bookSound = new Audio('audio/1157539.audio-Witch_Cauldron_-A_Young_Witch_Maddening_Her_Opponent_With_Her_Laughters-Getting_In_Their_Minds.wav');
+const bookSound = new Audio('audio/knife-stab-melon-82560.mp3');
 const pumpkinSound = new Audio('audio/1157539.audio-Witch_Cauldron_-A_Young_Witch_Maddening_Her_Opponent_With_Her_Laughters-Getting_In_Their_Minds.wav');
-const windowSound = new Audio('audio/1157539.audio-Witch_Cauldron_-A_Young_Witch_Maddening_Her_Opponent_With_Her_Laughters-Getting_In_Their_Minds.wav');
-const photoFrameSound = new Audio('audio/1157539.audio-Witch_Cauldron_-A_Young_Witch_Maddening_Her_Opponent_With_Her_Laughters-Getting_In_Their_Minds.wav');
+const windowSound = new Audio('audio/scream-90747.mp3');
+const photoFrameSound = new Audio('audio/scream-90747.mp3');
 
 // Function to play background music
 function playBackgroundMusic() {
@@ -207,14 +256,25 @@ bookContainer.addEventListener('mouseenter', function() {
     getBlood();
 });
 
+let pumpkinRedirectTimeout; // Timeout variable for the pumpkin hover redirect
+
 // Pumpkin interactions
 const pumpkin = document.querySelector(".calabaza");
-pumpkin.addEventListener('click', function() {
-    pumpkinSound.play();
-});
+
 pumpkin.addEventListener('mouseenter', function() {
     pumpkinSound.play();
+
+    // Start a 5-second timer to redirect when the pumpkin is hovered over
+    pumpkinRedirectTimeout = setTimeout(() => {
+        window.location.href = 'https://manor.hackclub.com/';
+    }, 2000); // Redirect after 5 seconds
 });
+
+pumpkin.addEventListener('mouseleave', function() {
+    // Clear the timeout if the user leaves the pumpkin before 5 seconds
+    clearTimeout(pumpkinRedirectTimeout);
+});
+
 
 // Window interactions
 const windowElement = document.querySelector(".window");

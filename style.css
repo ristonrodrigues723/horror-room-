@@ -88,7 +88,7 @@
   font-family: 'Fruktur', cursive;
   font-size: 100px;
   color: #FF4500;
-  z-index: 5;
+  z-index: 999;
   transition: color 0.3s ease;
   white-space: pre-wrap; /* Allow line breaks */
   overflow-wrap: break-word; /* Break long words */
@@ -111,7 +111,7 @@
   font-family: 'Fruktur', cursive;
   font-size: 100px;
   color: #FF4500;
-  z-index: 5;
+  z-index: 999;
   transition: color 0.3s ease;
   white-space: nowrap; /* Prevent line breaks */
   overflow: hidden; /* Hide overflow */
@@ -125,7 +125,7 @@
   font-family: 'Fruktur', cursive;
   font-size: 100px;
   color: #FF4500;
-  z-index: 5;
+  z-index: 999;
   transition: color 0.3s ease;
   white-space: nowrap; /* Prevent line breaks */
   overflow: hidden; /* Hide overflow */
@@ -139,7 +139,7 @@
   font-family: 'Fruktur', cursive;
   font-size: 100px;
   color: #FF4500;
-  z-index: 5;
+  z-index: 999;
   transition: color 0.3s ease;
   white-space: nowrap; /* Prevent line breaks */
   overflow: hidden; /* Hide overflow */
